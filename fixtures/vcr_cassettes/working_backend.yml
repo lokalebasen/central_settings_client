@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://central-settings.services.lokalebasen.dk/api/dk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.2.3
+      X-Varnish:
+      - '12387864'
+      Content-Type:
+      - text/html;charset=utf-8
+      Date:
+      - Fri, 20 Feb 2015 15:30:08 GMT
+      Status:
+      - 200 OK
+      X-Xss-Protection:
+      - 1; mode=block
+      Accept-Ranges:
+      - bytes
+      X-Content-Type-Options:
+      - nosniff
+      Via:
+      - 1.1 varnish-v4
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      Age:
+      - '0'
+      Content-Length:
+      - '378'
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfaWQiOiJkayIsIl9yZXYiOiIzLTBmMjFlOTE2ZTMzMTU4MTAzMDIzMDUy
+        Zjk3ZmFkZTg4Iiwic2l0ZV9uYW1lIjoiTG9rYWxlYmFzZW4uZGsiLCJjb250
+        YWN0X2luZm8iOnsiY29tcGFueV9uYW1lIjoiTG9rYWxlYmFzZW4gQS9TIiwi
+        ZGVwYXJ0bWVudF9uYW1lIjoiS8O4YmVuaGF2biDDmCIsImFkZHJlc3NfbGlu
+        ZSI6IsOGYmVsw7hnYWRlIDQsIDEuIiwicG9zdGFsX2NvZGUiOiIyMTAwIiwi
+        cG9zdGFsX25hbWUiOiJLw7hiZW5haGF2biDDmCIsImNvdW50cnlfbmFtZSI6
+        IkRhbm1hcmsiLCJwaG9uZV9udW1iZXIiOiIoKzQ1KSA3MCAyMCAwOCAxNCIs
+        InZhdCI6IjMxNjI3ODc3IiwiZW1haWwiOiJpbmZvQGxva2FsZWJhc2VuLmRr
+        In0sImxvY2FsZSI6ImRhIn0K
+    http_version: 
+  recorded_at: Fri, 20 Feb 2015 15:30:08 GMT
+recorded_with: VCR 2.8.0
