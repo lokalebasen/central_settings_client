@@ -11,19 +11,19 @@ http_interactions:
       - Faraday v0.9.1
   response:
     status:
-      code: 200
-      message: ''
+      code: 500
+      message: 'Error'
     headers:
       Server:
       - nginx/1.2.3
       X-Varnish:
-      - '12387864'
+      - '1513741'
       Content-Type:
       - text/html;charset=utf-8
       Date:
-      - Fri, 20 Feb 2015 15:30:08 GMT
+      - Fri, 20 Feb 2015 15:49:38 GMT
       Status:
-      - 200 OK
+      - 500 Internal Server Error
       X-Xss-Protection:
       - 1; mode=block
       Accept-Ranges:
@@ -53,5 +53,5 @@ http_interactions:
         InZhdCI6IjMxNjI3ODc3IiwiZW1haWwiOiJpbmZvQGxva2FsZWJhc2VuLmRr
         In0sImxvY2FsZSI6ImRhIn0K
     http_version:
-  recorded_at: Fri, 20 Feb 2015 15:30:08 GMT
+  recorded_at: Fri, 20 Feb 2015 15:49:38 GMT
 recorded_with: VCR 2.8.0

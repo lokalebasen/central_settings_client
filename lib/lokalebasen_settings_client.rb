@@ -4,6 +4,8 @@ require 'faraday'
 require 'json'
 
 module LokalebasenSettingsClient
+  class LokalebasenSettingsClient::BackendError < RuntimeError; end
+
   class CachingClient
     def initialize(url, site_key)
       @url = url
@@ -58,7 +60,9 @@ module LokalebasenSettingsClient
     end
 
     def json
-      JSON.parse(fetch.body)
+      response = fetch
+      fail LokalebasenSettingsClient::BackendError, response.body unless response.status == 200
+      JSON.parse(response.body)
     end
 
     def fetch
