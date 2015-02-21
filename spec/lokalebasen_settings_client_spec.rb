@@ -47,4 +47,29 @@ describe LokalebasenSettingsClient do
       expect(client.get['site_name']).to eql('Lokalebasen.dk')
     end
   end
+
+  context "cached response is expired and backend is dead" do
+    let(:client) { LokalebasenSettingsClient::CachingClient.new('https://foo.bar', 'dk') }
+
+    before do
+      client.raise_error = false
+      VCR.use_cassette "working_backend" do
+        client.get
+      end
+      Timecop.freeze(Time.now + 60 * 60 * 2) # Expire cache
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it "uses the cache" do
+      expect(client.get['site_name']).to eql('Lokalebasen.dk')
+    end
+
+    it "respects raise_error" do
+      client.raise_error = true
+      expect { client.get['site_name'] }.to raise_error
+    end
+  end
 end
