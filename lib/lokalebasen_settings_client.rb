@@ -5,6 +5,7 @@ require 'json'
 
 module LokalebasenSettingsClient
   class LokalebasenSettingsClient::BackendError < RuntimeError; end
+  class LokalebasenSettingsClient::TimeoutError < RuntimeError; end
 
   class CachingClient
     def initialize(url, site_key)
@@ -41,7 +42,7 @@ module LokalebasenSettingsClient
     private
 
     def update_cache
-      Timeout::timeout(@timeout) do
+      Timeout::timeout(@timeout, LokalebasenSettingsClient::TimeoutError) do
         @cache = {
           value: json,
           expires: Time.now + @cache_time
@@ -72,7 +73,7 @@ module LokalebasenSettingsClient
     end
 
     def client
-      Faraday.new(@url) do |faraday|
+      @client ||= Faraday.new(@url) do |faraday|
         faraday.adapter :excon
       end
     end

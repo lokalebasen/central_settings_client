@@ -72,4 +72,30 @@ describe LokalebasenSettingsClient do
       expect { client.get['site_name'] }.to raise_error
     end
   end
+
+  context "backend is slow" do
+    let(:client) { LokalebasenSettingsClient::CachingClient.new('https://foo.bar', 'dk') }
+
+    before do
+      client.raise_error = false
+      VCR.use_cassette "working_backend" do
+        client.get
+      end
+      Timecop.freeze(Time.now + 60 * 60 * 2) # Expire cache
+      allow(client.send(:client)).to receive(:get).and_raise(LokalebasenSettingsClient::TimeoutError, "test")
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it "returns the cached response when backend is too slow" do
+      expect(client.get['site_name']).to eql('Lokalebasen.dk')
+    end
+
+    it "raises specific error when configured to reraise" do
+      client.raise_error = true
+      expect { client.get['site_name'] }.to raise_error
+    end
+  end
 end
