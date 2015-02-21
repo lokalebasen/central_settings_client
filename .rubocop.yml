@@ -1,0 +1,18 @@
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'Rakefile'
+
+Lint/RescueException:
+  Enabled: false
+
+
+Style/Documentation: # No need to write documentation for every module and class
+  Enabled: false
+
+Style/AndOr: # Allows us to use `and` and `or`
+  Enabled: false
+
+Style/SingleSpaceBeforeFirstArg: # Allows us to indent as we like
+  Enabled: false
