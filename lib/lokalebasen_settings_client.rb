@@ -9,7 +9,7 @@ module LokalebasenSettingsClient
 
   # Caching client for lokalebase settings
   class CachingClient
-    attr_writer :timeout, :cache_time, :reraise_error
+    attr_accessor :timeout, :cache_time, :reraise_error
 
     def initialize(url, site_key)
       @url = url
@@ -33,16 +33,16 @@ module LokalebasenSettingsClient
     private
 
     def update_cache
-      Timeout.timeout(@timeout, TimeoutError) do
+      Timeout.timeout(timeout, TimeoutError) do
         @cache = {
           value: json,
-          expires: Time.now + @cache_time
+          expires: Time.now + cache_time
         }
       end
     rescue Exception => e
-      @cache[:expires] = Time.now + @cache_time if @cache.is_a?(Hash)
+      @cache[:expires] = Time.now + cache_time if @cache.is_a?(Hash)
       Airbrake.notify(e) if defined?(Airbrake)
-      raise e if @reraise_error
+      raise e if reraise_error
     end
 
     def cache_valid?
