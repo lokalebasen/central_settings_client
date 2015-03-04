@@ -11,9 +11,8 @@ module LokalebasenSettingsClient
   class CachingClient
     attr_accessor :timeout, :cache_time, :reraise_error
 
-    def initialize(url, site_key)
+    def initialize(url)
       @url = url
-      @site_key = site_key
 
       # Default values
       @timeout = 0.5
@@ -25,17 +24,17 @@ module LokalebasenSettingsClient
       health_check.status == 200
     end
 
-    def get
-      update_cache unless cache_valid?
+    def get(site_key)
+      update_cache(site_key) unless cache_valid?
       @cache[:value]
     end
 
     private
 
-    def update_cache
+    def update_cache(site_key)
       Timeout.timeout(timeout, TimeoutError) do
         @cache = {
-          value: json,
+          value: fetch_json_by_site_key(site_key),
           expires: Time.now + cache_time
         }
       end
@@ -53,14 +52,14 @@ module LokalebasenSettingsClient
       client.get('/health_check')
     end
 
-    def json
-      response = fetch
-      fail(BackendError, response.body) unless response.status == 200
-      JSON.parse(response.body)
+    def fetch_json_by_site_key(site_key)
+      fetch_json("/api/#{site_key}")
     end
 
-    def fetch
-      client.get("/api/#{@site_key}")
+    def fetch_json(path)
+      response = client.get(path)
+      fail(BackendError, response.body) unless response.status == 200
+      JSON.parse(response.body)
     end
 
     def client
