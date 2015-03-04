@@ -25,18 +25,36 @@ module LokalebasenSettingsClient
     end
 
     def get(site_key)
-      update_cache(site_key) unless cache_valid?
+      try_update_cache_for_site_key(site_key) unless cache_valid?
+      @cache[:value]
+    end
+
+    def get_by_domain(domain)
+      try_update_cache_for_domain(domain) unless cache_valid?
       @cache[:value]
     end
 
     private
 
-    def update_cache(site_key)
+    def try_update_cache_for_site_key(site_key)
+      with_timeout_and_cache_fallback do
+        update_cache(fetch_json_by_site_key(site_key))
+      end
+    end
+
+    def try_update_cache_for_domain(domain)
+      with_timeout_and_cache_fallback do
+        update_cache(fetch_json_by_domain(domain))
+      end
+    end
+
+    def update_cache(value)
+      @cache = { value: value, expires: Time.now + cache_time }
+    end
+
+    def with_timeout_and_cache_fallback
       Timeout.timeout(timeout, TimeoutError) do
-        @cache = {
-          value: fetch_json_by_site_key(site_key),
-          expires: Time.now + cache_time
-        }
+        yield
       end
     rescue Exception => e
       @cache[:expires] = Time.now + cache_time if @cache.is_a?(Hash)
@@ -54,6 +72,10 @@ module LokalebasenSettingsClient
 
     def fetch_json_by_site_key(site_key)
       fetch_json("/api/#{site_key}")
+    end
+
+    def fetch_json_by_domain(domain)
+      fetch_json("/api/domain/#{domain}")
     end
 
     def fetch_json(path)
