@@ -1,15 +1,7 @@
 require 'spec_helper'
 
-describe LokalebasenSettingsClient do
-  let(:site_key) { 'dk' }
-
-  def default_client
-    LokalebasenSettingsClient::CachingClient.new('https://foo.bar')
-  end
-
+RSpec.shared_examples 'fetching settings' do
   context 'Working backend' do
-    let(:client) { default_client }
-
     it 'fetches settings hash' do
       VCR.use_cassette 'working_backend' do
         expect(client.get(site_key)['site_name']).to eql('Lokalebasen.dk')
@@ -24,8 +16,6 @@ describe LokalebasenSettingsClient do
   end
 
   context 'dead backend' do
-    let(:client) { default_client }
-
     it 'fetches settings hash' do
       VCR.use_cassette 'dead_backend' do
         expect { client.get(site_key)['site_name'] }.to raise_error
@@ -40,8 +30,6 @@ describe LokalebasenSettingsClient do
   end
 
   context 'cached response' do
-    let(:client) { default_client }
-
     before do
       VCR.use_cassette 'working_backend' do
         client.get(site_key)
@@ -54,8 +42,6 @@ describe LokalebasenSettingsClient do
   end
 
   context 'cached response is expired and backend is dead' do
-    let(:client) { default_client }
-
     before do
       client.reraise_error = false
       VCR.use_cassette 'working_backend' do
@@ -79,8 +65,6 @@ describe LokalebasenSettingsClient do
   end
 
   context 'backend is slow' do
-    let(:client) { default_client }
-
     before do
       client.reraise_error = false
       VCR.use_cassette 'working_backend' do
@@ -105,3 +89,16 @@ describe LokalebasenSettingsClient do
     end
   end
 end
+
+describe LokalebasenSettingsClient do
+  let(:site_key) { 'dk' }
+
+  def default_client
+    LokalebasenSettingsClient::CachingClient.new('https://foo.bar')
+  end
+
+  include_examples "fetching settings" do
+    let(:client) { default_client }
+  end
+end
+
