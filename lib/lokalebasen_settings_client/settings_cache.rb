@@ -1,11 +1,13 @@
 module LokalebasenSettingsClient
   class SettingsCache
+    DEFAULT_CACHE_TIME = 60 * 60 # 1 hour
+
     attr_reader :cache
     attr_accessor :cache_time
     private :cache
 
-    def initialize
-      @cache_time = 60 * 60 # 1 Hour
+    def initialize(cache_time = DEFAULT_CACHE_TIME)
+      @cache_time = cache_time
 
       @cache = {}
     end
