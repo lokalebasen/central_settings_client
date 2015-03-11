@@ -15,6 +15,12 @@ module LokalebasenSettingsClient
       JSON.parse(response.body)
     end
 
+    def json_settings_by_domain(domain)
+      response = with_timeout { client.get("/api/domain/#{domain}") }
+      fail BackendError, response.body unless response.status == 200
+      JSON.parse(response.body)
+    end
+
     def health_check
       client.get('/health_check')
     end
