@@ -6,9 +6,19 @@ describe LokalebasenSettingsClient::Client do
   let(:client) { LokalebasenSettingsClient::Client.new('https://foo.bar') }
 
   describe "settings by site key" do
-    it "returns the response with status 200" do
+    it "returns the settings as json when status is 200" do
       VCR.use_cassette 'working_backend' do
-        expect(client.by_site_key(site_key).status).to eq(200)
+        expect(client.json_settings_by_site_key(site_key)).to include({
+          "locale" => "da"
+        });
+      end
+    end
+
+    it "raises BackendError when status is not 200" do
+      VCR.use_cassette 'dead_backend' do
+        expect {
+          client.json_settings_by_site_key(site_key)
+        }.to raise_error(LokalebasenSettingsClient::BackendError)
       end
     end
   end
