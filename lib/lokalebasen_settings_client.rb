@@ -57,7 +57,7 @@ module LokalebasenSettingsClient
     end
 
     def healthy?
-      health_check.status == 200
+      client.health_check.status == 200
     end
 
     def get
@@ -69,7 +69,7 @@ module LokalebasenSettingsClient
 
     def update_cache
       @cache = {
-        value: json,
+        value: settings_by_site_key,
         expires: Time.now + @cache_time
       }
     rescue Exception => e
@@ -82,23 +82,14 @@ module LokalebasenSettingsClient
       !@cache.nil? && !@cache[:expires].nil? && @cache[:expires] > Time.now
     end
 
-    def health_check
-      client.health_check
-    end
-
-    def json
-      response = fetch
+    def settings_by_site_key
+      response = client.by_site_key(@site_key)
       fail(BackendError, response.body) unless response.status == 200
       JSON.parse(response.body)
-    end
-
-    def fetch
-      client.by_site_key(@site_key)
     end
 
     def client
       Client.new(@url)
     end
-
   end
 end
