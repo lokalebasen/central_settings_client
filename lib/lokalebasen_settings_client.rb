@@ -40,19 +40,53 @@ module LokalebasenSettingsClient
     end
   end
 
+  class SettingsCache
+    attr_reader :cache
+    attr_accessor :cache_time
+    private :cache
+
+    def initialize
+      @cache_time = 60 * 60 # 1 Hour
+
+      @cache = {}
+    end
+
+    def cached(&block)
+      return @cache[:value] if cache_valid?
+      new_value = yield
+      @cache = {
+        value: new_value,
+        expires: Time.now + cache_time
+      }
+      new_value
+    rescue Exception => exception
+      @cache[:expires] = Time.now + cache_time if @cache.is_a?(Hash)
+      raise exception
+    end
+
+    def last_cached_value
+      @cache[:value]
+    end
+
+    def cache_valid?
+      !@cache.nil? &&
+        !@cache[:expires].nil? &&
+        @cache[:expires] > Time.now
+    end
+  end
+
   # Caching client for lokalebase settings
   class CachingClient
     extend Forwardable
-    attr_writer :cache_time, :reraise_error
+    attr_writer :reraise_error
 
-    def_delegator :client, :timeout=, :timeout=
+    def_delegators :client, :timeout=, :cache_time=
 
     def initialize(url, site_key)
       @url = url
       @site_key = site_key
 
       # Default values
-      @cache_time = 60 * 60 # 1 Hour
       @reraise_error = true
     end
 
@@ -61,25 +95,15 @@ module LokalebasenSettingsClient
     end
 
     def get
-      update_cache unless cache_valid?
-      @cache[:value]
-    end
-
-    private
-
-    def update_cache
-      @cache = {
-        value: settings_by_site_key,
-        expires: Time.now + @cache_time
-      }
+      cache.cached { settings_by_site_key }
     rescue Exception => e
-      @cache[:expires] = Time.now + @cache_time if @cache.is_a?(Hash)
       Airbrake.notify(e) if defined?(Airbrake)
       raise e if @reraise_error
+      cache.last_cached_value
     end
 
-    def cache_valid?
-      !@cache.nil? && !@cache[:expires].nil? && @cache[:expires] > Time.now
+    def cache
+      @cache ||= SettingsCache.new
     end
 
     def settings_by_site_key
