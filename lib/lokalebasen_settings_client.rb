@@ -14,6 +14,16 @@ module LokalebasenSettingsClient
       @settings_service_url = settings_service_url
     end
 
+    def by_site_key(site_key)
+      client.get("/api/#{site_key}")
+    end
+
+    def health_check
+      client.get('/health_check')
+    end
+
+    private
+
     def client
       @client ||= Faraday.new(settings_service_url) do |faraday|
         faraday.adapter :excon
@@ -64,7 +74,7 @@ module LokalebasenSettingsClient
     end
 
     def health_check
-      client.get('/health_check')
+      client.health_check
     end
 
     def json
@@ -74,11 +84,11 @@ module LokalebasenSettingsClient
     end
 
     def fetch
-      client.get("/api/#{@site_key}")
+      client.by_site_key(@site_key)
     end
 
     def client
-      Client.new(@url).client
+      Client.new(@url)
     end
 
   end
