@@ -24,6 +24,8 @@ module LokalebasenSettingsClient
       cache.last_cached_value
     end
 
+    private
+
     def fetch_settings_by_site_key(site_key)
       response = client.by_site_key(site_key)
       fail(BackendError, response.body) unless response.status == 200
