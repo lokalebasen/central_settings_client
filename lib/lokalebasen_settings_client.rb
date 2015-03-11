@@ -9,9 +9,12 @@ module LokalebasenSettingsClient
 
   class Client
     attr_reader :settings_service_url
+    attr_accessor :timeout
 
     def initialize(settings_service_url)
       @settings_service_url = settings_service_url
+
+      @timeout = 0.5
     end
 
     def by_site_key(site_key)
@@ -24,6 +27,12 @@ module LokalebasenSettingsClient
 
     private
 
+    def with_timeout(&block)
+      Timeout.timeout(timeout, TimeoutError) do
+        yield
+      end
+    end
+
     def client
       @client ||= Faraday.new(settings_service_url) do |faraday|
         faraday.adapter :excon
@@ -33,14 +42,16 @@ module LokalebasenSettingsClient
 
   # Caching client for lokalebase settings
   class CachingClient
-    attr_writer :timeout, :cache_time, :reraise_error
+    extend Forwardable
+    attr_writer :cache_time, :reraise_error
+
+    def_delegator :client, :timeout=, :timeout=
 
     def initialize(url, site_key)
       @url = url
       @site_key = site_key
 
       # Default values
-      @timeout = 0.5
       @cache_time = 60 * 60 # 1 Hour
       @reraise_error = true
     end
@@ -57,12 +68,10 @@ module LokalebasenSettingsClient
     private
 
     def update_cache
-      Timeout.timeout(@timeout, TimeoutError) do
-        @cache = {
-          value: json,
-          expires: Time.now + @cache_time
-        }
-      end
+      @cache = {
+        value: json,
+        expires: Time.now + @cache_time
+      }
     rescue Exception => e
       @cache[:expires] = Time.now + @cache_time if @cache.is_a?(Hash)
       Airbrake.notify(e) if defined?(Airbrake)
