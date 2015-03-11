@@ -87,8 +87,6 @@ describe LokalebasenSettingsClient do
         client.by_site_key(site_key)
       end
       Timecop.freeze(Time.now + 60 * 60 * 2) # Expire cache
-      allow(client.send(:client)).to receive(:get)
-        .and_raise(LokalebasenSettingsClient::TimeoutError, 'test')
     end
 
     after do

@@ -17,18 +17,14 @@ module LokalebasenSettingsClient
     end
 
     def by_site_key(site_key)
-      cache.cached { fetch_settings_by_site_key(site_key) }
+      cache.cached { client.json_settings_by_site_key(site_key) }
     rescue Exception => e
       Airbrake.notify(e) if defined?(Airbrake)
       raise e if @reraise_error
       cache.last_cached_value
     end
 
-    def fetch_settings_by_site_key(site_key)
-      response = client.by_site_key(site_key)
-      fail(BackendError, response.body) unless response.status == 200
-      JSON.parse(response.body)
-    end
+    private
 
     def cache
       @cache ||= SettingsCache.new
