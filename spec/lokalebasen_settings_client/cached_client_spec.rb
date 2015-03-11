@@ -38,5 +38,41 @@ describe LokalebasenSettingsClient::CachingClient do
         .and_return("cached value")
       expect(client.by_site_key(site_key)).to eq('cached value')
     end
+
+    context "when the server raises an exception" do
+      before :each do
+        allow_any_instance_of(LokalebasenSettingsClient::SettingsCache)
+          .to receive(:cached)
+          .and_yield
+        allow(raw_client)
+          .to receive(:json_settings_by_site_key)
+          .and_raise(LokalebasenSettingsClient::BackendError)
+      end
+
+      it "notifies Airbrake" do
+        client.reraise_error = false
+        airbrake = double("Airbrake")
+        stub_const "Airbrake", airbrake
+        expect(airbrake).to receive(:notify)
+        client.by_site_key(site_key)
+      end
+
+      it "raises the error if reraise_error is true" do
+        client.reraise_error = true
+        expect {
+          client.by_site_key(site_key)
+        }.to raise_error(LokalebasenSettingsClient::BackendError)
+      end
+
+      it "returns the last cached value when not set to reraise error" do
+        client.reraise_error = false
+        client.by_site_key(site_key)
+        allow_any_instance_of(LokalebasenSettingsClient::SettingsCache)
+          .to receive(:cached)
+          .and_return("cached value")
+        client.by_site_key(site_key)
+        expect(client.by_site_key(site_key)).to eq('cached value')
+      end
+    end
   end
 end
