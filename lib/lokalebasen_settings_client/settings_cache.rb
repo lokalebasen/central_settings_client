@@ -27,6 +27,8 @@ module LokalebasenSettingsClient
       @cache[:value]
     end
 
+    private
+
     def cache_valid?
       !@cache.nil? &&
         !@cache[:expires].nil? &&
