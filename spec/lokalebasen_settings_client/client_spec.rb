@@ -21,6 +21,15 @@ describe LokalebasenSettingsClient::Client do
         }.to raise_error(LokalebasenSettingsClient::BackendError)
       end
     end
+
+    it "raises timeout error when the request is too slow" do
+      allow(Timeout)
+        .to receive(:timeout)
+        .and_raise(LokalebasenSettingsClient::TimeoutError)
+      expect {
+        client.json_settings_by_site_key(site_key)
+      }.to raise_error(LokalebasenSettingsClient::TimeoutError)
+    end
   end
 
   describe "health check" do

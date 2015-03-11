@@ -10,7 +10,7 @@ module LokalebasenSettingsClient
     end
 
     def json_settings_by_site_key(site_key)
-      response = client.get("/api/#{site_key}")
+      response = with_timeout { client.get("/api/#{site_key}") }
       fail BackendError, response.body unless response.status == 200
       JSON.parse(response.body)
     end
