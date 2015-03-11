@@ -7,6 +7,20 @@ module LokalebasenSettingsClient
   class BackendError < RuntimeError; end
   class TimeoutError < RuntimeError; end
 
+  class Client
+    attr_reader :settings_service_url
+
+    def initialize(settings_service_url)
+      @settings_service_url = settings_service_url
+    end
+
+    def client
+      @client ||= Faraday.new(settings_service_url) do |faraday|
+        faraday.adapter :excon
+      end
+    end
+  end
+
   # Caching client for lokalebase settings
   class CachingClient
     attr_writer :timeout, :cache_time, :reraise_error
@@ -64,9 +78,8 @@ module LokalebasenSettingsClient
     end
 
     def client
-      @client ||= Faraday.new(@url) do |faraday|
-        faraday.adapter :excon
-      end
+      Client.new(@url).client
     end
+
   end
 end
