@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://foo.bar/api/all
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Content-Length:
+      - '1159'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Date:
+      - Wed, 11 Mar 2015 14:09:10 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        W3siX2lkIjoiZGsiLCJfcmV2IjoiMTItYTU4OWQyMGUzYjVjNjc0MTFjODFi
+        ZmEzMTAzOTA4M2MiLCJzaXRlX25hbWUiOiJMb2thbGViYXNlbi5kayIsImRl
+        ZmF1bHRfY3VycmVuY3lfZm9ybWF0dGVkIjoia3IuIiwicGFnZV90aXRsZSI6
+        Ikxva2FsZWJhc2VuIiwiY29udGFjdF9pbmZvIjp7ImNvbXBhbnlfbmFtZSI6
+        Ikxva2FsZWJhc2VuIEEvUyIsIm9mZmljZXMiOlt7ImRlcGFydG1lbnRfbmFt
+        ZSI6IkvDuGJlbmhhdm4gw5giLCJhZGRyZXNzX2xpbmUiOiLDhmJlbMO4Z2Fk
+        ZSA0LCAxLiIsInBvc3RhbF9jb2RlX2FuZF9jaXR5IjoiMjEwMCBLw7hiZW5h
+        aGF2biDDmCJ9LHsiZGVwYXJ0bWVudF9uYW1lIjoiQWFyaHVzIiwiYWRkcmVz
+        c19saW5lIjoiQXJyZXPDuHZlaiA2IiwicG9zdGFsX2NvZGVfYW5kX2NpdHki
+        OiI4MjQwIFJpc3Nrb3YifV0sImNvdW50cnlfbmFtZSI6IkRhbm1hcmsiLCJw
+        aG9uZV9udW1iZXIiOiIoKzQ1KSA3MCAyMCAwOCAxNCIsInZhdCI6IjMxNjI3
+        ODc3IiwiZW1haWwiOiJpbmZvQGxva2FsZWJhc2VuLmRrIn0sInVybF9kaWN0
+        aW9uYXJ5Ijp7ImNvcHlyaWdodF91cmwiOiIvb3BoYXZzcmV0dGlnaGVkZXIi
+        fSwibG9jYWxlIjoiZGEiLCJjb3VudHJ5IjoiRGVubWFyayIsInNhbGVzX3Np
+        dGUiOnRydWUsImRvbWFpbiI6ImNhdGFsb2cuZGV2Iiwic2l0ZV9rZXkiOiJk
+        ayJ9LHsiX2lkIjoic2UiLCJfcmV2IjoiMy1jNGRlMzQwMGM3MGE2NWRmMWQ4
+        OGU4Mzc0YTE5N2M5NSIsInNpdGVfbmFtZSI6Ikxva2FsYmFzZW4uc2UiLCJj
+        b250YWN0X2luZm8iOnsiY29tcGFueV9uYW1lIjoiTG9rYWxiYXNlbi5zZSBT
+        dmVyaWdlIEFCIiwib2ZmaWNlcyI6W3siZGVwYXJ0bWVudF9uYW1lIjoiU3Rv
+        Y2tob2xtIiwiYWRkcmVzc19saW5lIjoiTcOkc3RlciBTYW11ZWxzZ2F0YW4g
+        NjAsIDh0ci4iLCJwb3N0YWxfY29kZV9hbmRfY2l0eSI6IjExMSAyMSBTdG9j
+        a2hvbG0ifV0sImNvdW50cnlfbmFtZSI6IlN2ZXJpZ2UiLCJwaG9uZV9udW1i
+        ZXIiOiIwOC01NTkgMjE0IDMzIiwidmF0IjoiIiwiZW1haWwiOiJpbmZvQGxv
+        a2FsYmFzZW4uc2UifSwidXJsX2RpY3Rpb25hcnkiOnsiY29weXJpZ2h0X3Vy
+        bCI6Ii91cHBob3ZzcmF0dGlnaGV0ZXIifSwibG9jYWxlIjoic3YiLCJkb21h
+        aW4iOiJjYXRhbG9nLnNlIiwic2l0ZV9rZXkiOiJzZSJ9XQ==
+    http_version:
+  recorded_at: Wed, 11 Mar 2015 14:09:10 GMT
+recorded_with: VCR 2.9.3

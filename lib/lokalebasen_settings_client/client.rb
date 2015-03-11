@@ -17,6 +17,10 @@ module LokalebasenSettingsClient
       get_json_with_timeout("/api/domain/#{domain}")
     end
 
+    def all_json_settings
+      get_json_with_timeout("/api/all")
+    end
+
     def health_check
       client.get('/health_check')
     end
