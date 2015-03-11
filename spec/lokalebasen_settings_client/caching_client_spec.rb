@@ -41,4 +41,25 @@ describe LokalebasenSettingsClient::CachingClient do
       client.by_site_key('dk')
     end
   end
+
+  describe "by domain" do
+    it "returns the value from the cache" do
+      allow_any_instance_of(LokalebasenSettingsClient::RobustSettingsCache)
+        .to receive(:cached)
+        .and_return('cached value')
+      expect(client.by_domain('catalog.dev')).to eq('cached value')
+    end
+
+    it "finds settings by site key when cache block is called" do
+      allow_any_instance_of(LokalebasenSettingsClient::RobustSettingsCache)
+        .to receive(:cached)
+        .and_yield
+      client_instance = double("Client")
+      stub_const 'LokalebasenSettingsClient::Client', double(new: client_instance)
+      expect(client_instance)
+        .to receive(:json_settings_by_domain)
+        .with('catalog.dev')
+      client.by_domain('catalog.dev')
+    end
+  end
 end

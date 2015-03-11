@@ -19,6 +19,12 @@ module LokalebasenSettingsClient
       end
     end
 
+    def by_domain(domain)
+      robust_cache.cached "domain_#{domain}" do
+        client.json_settings_by_domain(domain)
+      end
+    end
+
     private
 
     def robust_cache
