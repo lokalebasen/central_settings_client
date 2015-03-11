@@ -1,6 +1,6 @@
 require 'spec_helper'
 require_relative '../../lib/lokalebasen_settings_client/client'
-require_relative '../../lib/lokalebasen_settings_client/cached_client'
+require_relative '../../lib/lokalebasen_settings_client/caching_client'
 
 describe LokalebasenSettingsClient::CachingClient do
   let(:site_key) { 'dk' }
