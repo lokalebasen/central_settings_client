@@ -5,9 +5,8 @@ module LokalebasenSettingsClient
 
     def_delegators :client, :timeout=, :cache_time=
 
-    def initialize(url, site_key)
+    def initialize(url)
       @url = url
-      @site_key = site_key
 
       # Default values
       @reraise_error = true
@@ -17,22 +16,22 @@ module LokalebasenSettingsClient
       client.health_check.status == 200
     end
 
-    def get
-      cache.cached { settings_by_site_key }
+    def by_site_key(site_key)
+      cache.cached { fetch_settings_by_site_key(site_key) }
     rescue Exception => e
       Airbrake.notify(e) if defined?(Airbrake)
       raise e if @reraise_error
       cache.last_cached_value
     end
 
-    def cache
-      @cache ||= SettingsCache.new
-    end
-
-    def settings_by_site_key
-      response = client.by_site_key(@site_key)
+    def fetch_settings_by_site_key(site_key)
+      response = client.by_site_key(site_key)
       fail(BackendError, response.body) unless response.status == 200
       JSON.parse(response.body)
+    end
+
+    def cache
+      @cache ||= SettingsCache.new
     end
 
     def client
