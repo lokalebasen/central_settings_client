@@ -1,0 +1,36 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://foo.bar/api/all
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Content-Length:
+      - '6'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Date:
+      - Wed, 11 Mar 2015 14:15:20 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: no way
+    http_version:
+  recorded_at: Wed, 11 Mar 2015 14:15:20 GMT
+recorded_with: VCR 2.9.3
