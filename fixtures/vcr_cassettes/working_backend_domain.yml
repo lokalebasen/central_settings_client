@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://foo.bar/api/domain/catalog.dev
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.1
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Content-Length:
+      - '677'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Date:
+      - Wed, 11 Mar 2015 12:26:34 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJfaWQiOiJkayIsIl9yZXYiOiIxMi1hNTg5ZDIwZTNiNWM2NzQxMWM4MWJm
+        YTMxMDM5MDgzYyIsInNpdGVfbmFtZSI6Ikxva2FsZWJhc2VuLmRrIiwiZGVm
+        YXVsdF9jdXJyZW5jeV9mb3JtYXR0ZWQiOiJrci4iLCJwYWdlX3RpdGxlIjoi
+        TG9rYWxlYmFzZW4iLCJjb250YWN0X2luZm8iOnsiY29tcGFueV9uYW1lIjoi
+        TG9rYWxlYmFzZW4gQS9TIiwib2ZmaWNlcyI6W3siZGVwYXJ0bWVudF9uYW1l
+        IjoiS8O4YmVuaGF2biDDmCIsImFkZHJlc3NfbGluZSI6IsOGYmVsw7hnYWRl
+        IDQsIDEuIiwicG9zdGFsX2NvZGVfYW5kX2NpdHkiOiIyMTAwIEvDuGJlbmFo
+        YXZuIMOYIn0seyJkZXBhcnRtZW50X25hbWUiOiJBYXJodXMiLCJhZGRyZXNz
+        X2xpbmUiOiJBcnJlc8O4dmVqIDYiLCJwb3N0YWxfY29kZV9hbmRfY2l0eSI6
+        IjgyNDAgUmlzc2tvdiJ9XSwiY291bnRyeV9uYW1lIjoiRGFubWFyayIsInBo
+        b25lX251bWJlciI6IigrNDUpIDcwIDIwIDA4IDE0IiwidmF0IjoiMzE2Mjc4
+        NzciLCJlbWFpbCI6ImluZm9AbG9rYWxlYmFzZW4uZGsifSwidXJsX2RpY3Rp
+        b25hcnkiOnsiY29weXJpZ2h0X3VybCI6Ii9vcGhhdnNyZXR0aWdoZWRlciJ9
+        LCJsb2NhbGUiOiJkYSIsImNvdW50cnkiOiJEZW5tYXJrIiwic2FsZXNfc2l0
+        ZSI6dHJ1ZSwiZG9tYWluIjoiY2F0YWxvZy5kZXYiLCJzaXRlX2tleSI6ImRr
+        In0=
+    http_version:
+  recorded_at: Wed, 11 Mar 2015 12:26:34 GMT
+recorded_with: VCR 2.9.3

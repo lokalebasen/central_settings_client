@@ -12,29 +12,49 @@ module LokalebasenSettingsClient
       @cache = {}
     end
 
-    def cached(&block)
-      return @cache[:value] if cache_valid?
-      new_value = yield
-      @cache = {
-        value: new_value,
-        expires: Time.now + cache_time
-      }
-      new_value
+    def cached(cache_key, &block)
+      return cache_value(cache_key) if cache_valid?(cache_key)
+      yield.tap do |new_value|
+        update_cache(cache_key, new_value)
+      end
     rescue Exception => exception
-      @cache[:expires] = Time.now + cache_time if @cache.is_a?(Hash)
+      set_cache_expiration(cache_key, Time.now + cache_time)
       raise exception
     end
 
-    def last_cached_value
-      @cache[:value]
+    def last_cached_value(cache_key)
+      cache_value(cache_key)
     end
 
     private
 
-    def cache_valid?
-      !@cache.nil? &&
-        !@cache[:expires].nil? &&
-        @cache[:expires] > Time.now
+    def set_cache_expiration(cache_key, expiration)
+      fetch_cache(cache_key)[:expires] = expiration
+    end
+
+    def update_cache(cache_key, value)
+      @cache[cache_key] = {
+        value: value,
+        expires: Time.now + cache_time
+      }
+    end
+
+    def cache_expiration(cache_key)
+      fetch_cache(cache_key).fetch(:expires, nil)
+    end
+
+    def cache_value(cache_key)
+      fetch_cache(cache_key).fetch(:value, nil)
+    end
+
+    def cache_valid?(cache_key)
+      !fetch_cache(cache_key).nil? &&
+        !cache_expiration(cache_key).nil? &&
+        cache_expiration(cache_key) > Time.now
+    end
+
+    def fetch_cache(cache_key)
+      @cache[cache_key] ||= {}
     end
   end
 end

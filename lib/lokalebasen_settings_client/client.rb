@@ -10,9 +10,11 @@ module LokalebasenSettingsClient
     end
 
     def json_settings_by_site_key(site_key)
-      response = with_timeout { client.get("/api/#{site_key}") }
-      fail BackendError, response.body unless response.status == 200
-      JSON.parse(response.body)
+      get_json_with_timeout("/api/#{site_key}")
+    end
+
+    def json_settings_by_domain(domain)
+      get_json_with_timeout("/api/domain/#{domain}")
     end
 
     def health_check
@@ -20,6 +22,12 @@ module LokalebasenSettingsClient
     end
 
     private
+
+    def get_json_with_timeout(path)
+      response = with_timeout { client.get(path) }
+      fail BackendError, response.body unless response.status == 200
+      JSON.parse(response.body)
+    end
 
     def with_timeout(&block)
       Timeout.timeout(timeout, TimeoutError) do
