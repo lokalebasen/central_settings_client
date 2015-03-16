@@ -12,7 +12,8 @@ describe LokalebasenSettingsClient do
 
     it 'fetches settings hash' do
       VCR.use_cassette 'working_backend' do
-        expect(client.by_site_key(site_key)['site_name']).to eql('Lokalebasen.dk')
+        expect(client.by_site_key(site_key)['site_name'])
+          .to eql('Lokalebasen.dk')
       end
     end
 

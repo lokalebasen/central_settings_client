@@ -9,7 +9,7 @@ module LokalebasenSettingsClient
       @reraise_error = true
     end
 
-    def cached(cache_key, &block)
+    def cached(cache_key)
       cache.cached cache_key do
         yield
       end

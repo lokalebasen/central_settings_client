@@ -18,7 +18,7 @@ module LokalebasenSettingsClient
     end
 
     def all_json_settings
-      get_json_with_timeout("/api/all")
+      get_json_with_timeout('/api/all')
     end
 
     def health_check
@@ -33,7 +33,7 @@ module LokalebasenSettingsClient
       JSON.parse(response.body)
     end
 
-    def with_timeout(&block)
+    def with_timeout
       Timeout.timeout(timeout, TimeoutError) do
         yield
       end

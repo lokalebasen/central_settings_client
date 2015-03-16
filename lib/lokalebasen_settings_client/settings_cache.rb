@@ -12,7 +12,7 @@ module LokalebasenSettingsClient
       @cache = {}
     end
 
-    def cached(cache_key, &block)
+    def cached(cache_key)
       return cache_value(cache_key) if cache_valid?(cache_key)
       yield.tap do |new_value|
         update_cache(cache_key, new_value)
