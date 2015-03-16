@@ -26,7 +26,7 @@ module LokalebasenSettingsClient
     end
 
     def all
-      robust_cache.cached("all") { client.all_json_settings }
+      robust_cache.cached('all') { client.all_json_settings }
     end
 
     private
