@@ -1,4 +1,4 @@
-module LokalebasenSettingsClient
+module CentralSettingsClient
   class RobustSettingsCache
     attr_reader :cache
     attr_accessor :reraise_error

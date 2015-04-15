@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe LokalebasenSettingsClient do
+describe CentralSettingsClient do
   let(:site_key) { 'dk' }
 
   def default_client
-    LokalebasenSettingsClient::CachingClient.new('https://foo.bar')
+    CentralSettingsClient::CachingClient.new('https://foo.bar')
   end
 
   context 'Working backend' do

@@ -1,4 +1,4 @@
-module LokalebasenSettingsClient
+module CentralSettingsClient
   class SettingsCache
     DEFAULT_CACHE_TIME = 60 * 60 # 1 hour
 

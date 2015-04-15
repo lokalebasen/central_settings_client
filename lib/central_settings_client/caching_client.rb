@@ -1,4 +1,4 @@
-module LokalebasenSettingsClient
+module CentralSettingsClient
   class CachingClient
     extend Forwardable
 

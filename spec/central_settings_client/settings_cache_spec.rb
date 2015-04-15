@@ -1,9 +1,9 @@
 require 'spec_helper'
-require_relative '../../lib/lokalebasen_settings_client/settings_cache'
+require_relative '../../lib/central_settings_client/settings_cache'
 
-describe LokalebasenSettingsClient::SettingsCache do
+describe CentralSettingsClient::SettingsCache do
   let(:cache_time) { 60 * 60 }
-  let(:cache) { LokalebasenSettingsClient::SettingsCache.new(cache_time) }
+  let(:cache) { CentralSettingsClient::SettingsCache.new(cache_time) }
   let(:cache_key) { 'site_key_dk' }
 
   it 'responds with the newly cached value' do

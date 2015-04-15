@@ -1,4 +1,4 @@
-module LokalebasenSettingsClient
+module CentralSettingsClient
   class Client
     attr_reader :settings_service_url
     attr_accessor :timeout
