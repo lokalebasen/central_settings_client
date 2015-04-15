@@ -4,7 +4,7 @@ describe CentralSettingsClient do
   let(:site_key) { 'dk' }
 
   def default_client
-    CentralSettingsClient::CachingClient.new('https://foo.bar')
+    CentralSettingsClient::Client.new('https://foo.bar')
   end
 
   context 'Working backend' do
@@ -29,7 +29,7 @@ describe CentralSettingsClient do
 
     it 'fetches settings hash' do
       VCR.use_cassette 'dead_backend' do
-        expect { client.by_site_key(site_key)['site_name'] }.to raise_error
+        expect { client.by_site_key(site_key) }.to raise_error
       end
     end
 
@@ -58,7 +58,6 @@ describe CentralSettingsClient do
     let(:client) { default_client }
 
     before do
-      client.reraise_error = false
       VCR.use_cassette 'working_backend' do
         client.by_site_key(site_key)
       end
@@ -70,20 +69,17 @@ describe CentralSettingsClient do
     end
 
     it 'uses the cache' do
-      expect(client.by_site_key(site_key)['site_name']).to eql('Lokalebasen.dk')
+      VCR.use_cassette 'dead_backend' do
+        expect(client.by_site_key(site_key)['site_name']).to eql('Lokalebasen.dk')
+      end
     end
 
-    it 'respects raise_error' do
-      client.reraise_error = true
-      expect { client.by_site_key(site_key)['site_name'] }.to raise_error
-    end
   end
 
   context 'backend is slow' do
     let(:client) { default_client }
 
     before do
-      client.reraise_error = false
       VCR.use_cassette 'working_backend' do
         client.by_site_key(site_key)
       end
@@ -95,12 +91,9 @@ describe CentralSettingsClient do
     end
 
     it 'returns the cached response when backend is too slow' do
+      expect(Timeout).to receive(:timeout).and_raise(Timeout::Error)
       expect(client.by_site_key(site_key)['site_name']).to eql('Lokalebasen.dk')
     end
 
-    it 'raises specific error when configured to reraise' do
-      client.reraise_error = true
-      expect { client.by_site_key(site_key)['site_name'] }.to raise_error
-    end
   end
 end

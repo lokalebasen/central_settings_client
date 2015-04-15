@@ -1,42 +1,48 @@
 module CentralSettingsClient
   class Client
     attr_reader :settings_service_url
-    attr_accessor :timeout
 
     def initialize(settings_service_url)
+      @object_cache = CentralSettingsClient::ObjectCache.new
       @settings_service_url = settings_service_url
-
-      @timeout = 0.5
     end
 
-    def json_settings_by_site_key(site_key)
-      get_json_with_timeout("/api/#{site_key}")
+    def by_site_key(site_key)
+      path = path_for_site_key(site_key)
+      @object_cache.read(path) do
+        quietly_fetch(path)
+      end
     end
 
-    def json_settings_by_domain(domain)
-      get_json_with_timeout("/api/domain/#{domain}")
+    def by_domain(domain)
+      all.find do |site|
+        site.fetch('domain') == domain
+      end
     end
 
-    def all_json_settings
-      get_json_with_timeout('/api/all')
+    def all
+      path = "api/all"
+      @object_cache.read(path) do
+        quietly_fetch(path)
+      end
     end
 
-    def health_check
-      client.get('/health_check')
+    def healthy?
+      client.get('/health_check').status == 200
     end
 
     private
 
-    def get_json_with_timeout(path)
-      response = with_timeout { client.get(path) }
-      fail BackendError, response.body unless response.status == 200
-      JSON.parse(response.body)
+    def path_for_site_key(site_key)
+      "api/#{site_key}"
     end
 
-    def with_timeout
-      Timeout.timeout(timeout, TimeoutError) do
-        yield
-      end
+    def quietly_fetch(path)
+      response = client.get(path)
+      return nil if response.status != 200
+      JSON.parse(response.body)
+    rescue JSON::ParserError, TypeError, Faraday::ConnectionFailed
+      nil
     end
 
     def client
