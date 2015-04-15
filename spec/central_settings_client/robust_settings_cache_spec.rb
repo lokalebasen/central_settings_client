@@ -1,14 +1,14 @@
 require 'spec_helper'
-require_relative '../../lib/lokalebasen_settings_client/robust_settings_cache'
-require_relative '../../lib/lokalebasen_settings_client/settings_cache'
+require_relative '../../lib/central_settings_client/robust_settings_cache'
+require_relative '../../lib/central_settings_client/settings_cache'
 
-describe LokalebasenSettingsClient::RobustSettingsCache do
+describe CentralSettingsClient::RobustSettingsCache do
   describe 'fetching settings by site key' do
     let(:cache) do
-      LokalebasenSettingsClient::SettingsCache.new
+      CentralSettingsClient::SettingsCache.new
     end
     let(:robust_cache) do
-      LokalebasenSettingsClient::RobustSettingsCache.new(cache)
+      CentralSettingsClient::RobustSettingsCache.new(cache)
     end
 
     it 'returns the value given by the cache' do

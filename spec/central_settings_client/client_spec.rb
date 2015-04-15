@@ -1,10 +1,10 @@
 require 'spec_helper'
-require_relative '../../lib/lokalebasen_settings_client/client'
+require_relative '../../lib/central_settings_client/client'
 
-describe LokalebasenSettingsClient::Client do
+describe CentralSettingsClient::Client do
   let(:site_key) { 'dk' }
   let(:domain) { 'catalog.dev' }
-  let(:client) { LokalebasenSettingsClient::Client.new('https://foo.bar') }
+  let(:client) { CentralSettingsClient::Client.new('https://foo.bar') }
 
   describe 'settings by site key' do
     it 'returns the settings as json when status is 200' do
@@ -19,17 +19,17 @@ describe LokalebasenSettingsClient::Client do
       VCR.use_cassette 'dead_backend' do
         expect do
           client.json_settings_by_site_key(site_key)
-        end.to raise_error(LokalebasenSettingsClient::BackendError)
+        end.to raise_error(CentralSettingsClient::BackendError)
       end
     end
 
     it 'raises timeout error when the request is too slow' do
       allow(Timeout)
         .to receive(:timeout)
-        .and_raise(LokalebasenSettingsClient::TimeoutError)
+        .and_raise(CentralSettingsClient::TimeoutError)
       expect do
         client.json_settings_by_site_key(site_key)
-      end.to raise_error(LokalebasenSettingsClient::TimeoutError)
+      end.to raise_error(CentralSettingsClient::TimeoutError)
     end
   end
 
@@ -46,17 +46,17 @@ describe LokalebasenSettingsClient::Client do
       VCR.use_cassette 'dead_backend_domain' do
         expect do
           client.json_settings_by_domain(domain)
-        end.to raise_error(LokalebasenSettingsClient::BackendError)
+        end.to raise_error(CentralSettingsClient::BackendError)
       end
     end
 
     it 'raises timeout error when the request is too slow' do
       allow(Timeout)
         .to receive(:timeout)
-        .and_raise(LokalebasenSettingsClient::TimeoutError)
+        .and_raise(CentralSettingsClient::TimeoutError)
       expect do
         client.json_settings_by_domain(domain)
-      end.to raise_error(LokalebasenSettingsClient::TimeoutError)
+      end.to raise_error(CentralSettingsClient::TimeoutError)
     end
   end
 
@@ -73,17 +73,17 @@ describe LokalebasenSettingsClient::Client do
       VCR.use_cassette 'dead_backend_all' do
         expect do
           client.all_json_settings
-        end.to raise_error(LokalebasenSettingsClient::BackendError)
+        end.to raise_error(CentralSettingsClient::BackendError)
       end
     end
 
     it 'raises timeout error when the request is too slow' do
       allow(Timeout)
         .to receive(:timeout)
-        .and_raise(LokalebasenSettingsClient::TimeoutError)
+        .and_raise(CentralSettingsClient::TimeoutError)
       expect do
         client.all_json_settings
-      end.to raise_error(LokalebasenSettingsClient::TimeoutError)
+      end.to raise_error(CentralSettingsClient::TimeoutError)
     end
   end
 

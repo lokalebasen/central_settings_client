@@ -1,7 +1,7 @@
 require 'bundler/setup'
 Bundler.setup
 
-require 'lokalebasen_settings_client'
+require 'central_settings_client'
 require 'vcr'
 require 'webmock'
 require 'timecop'

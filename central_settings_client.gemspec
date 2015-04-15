@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'lokalebasen_settings_client/version'
+require 'central_settings_client/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'lokalebasen_settings_client'
-  spec.version       = LokalebasenSettingsClient::VERSION
+  spec.name          = 'central_settings_client'
+  spec.version       = CentralSettingsClient::VERSION
   spec.authors       = ['Martin Neiiendam']
   spec.email         = ['fracklen@gmail.com']
   spec.summary       = 'Caching HTTP Client for fetching and caching
