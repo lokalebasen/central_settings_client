@@ -8,9 +8,7 @@ module CentralSettingsClient
 
     def read(key, &block)
       key = key.to_s
-      if cache[key].nil?
-        cache[key] = CentralSettingsClient::CacheRecord.new(block)
-      end
+      cache[key] ||= CentralSettingsClient::CacheRecord.new(block)
       cache[key].value
     end
 
