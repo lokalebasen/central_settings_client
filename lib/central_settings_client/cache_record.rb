@@ -1,6 +1,6 @@
 module CentralSettingsClient
   class CacheRecord
-    TIME_OUT = 0.5 # Seconds
+    TIMEOUT = 0.5 # Seconds
     EXPIRATION_TIME = 3600 # One hour in seconds
 
     attr_accessor :expires_at, :last_computed_value, :block
@@ -32,7 +32,7 @@ module CentralSettingsClient
     end
 
     def impatiently_recompute_block
-      Timeout::timeout(TIME_OUT) do
+      Timeout::timeout(TIMEOUT) do
         block.call
       end
     rescue Timeout::Error
