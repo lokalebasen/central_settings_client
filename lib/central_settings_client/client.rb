@@ -1,6 +1,7 @@
 module CentralSettingsClient
   class Client
     attr_reader :settings_service_url
+    class HttpError < RuntimeError; end;
 
     def initialize(settings_service_url)
       @object_cache = CentralSettingsClient::ObjectCache.new
@@ -38,11 +39,15 @@ module CentralSettingsClient
     end
 
     def quietly_fetch(path)
-      response = client.get(path)
-      return nil if response.status != 200
-      JSON.parse(response.body)
-    rescue JSON::ParserError, TypeError, Faraday::ConnectionFailed
+      fetch(path)
+    rescue JSON::ParserError, TypeError, Faraday::ConnectionFailed, HttpError
       nil
+    end
+
+    def fetch(path)
+      response = client.get(path)
+      fail HttpError.new(response.status) if response.status != 200
+      JSON.parse(response.body)
     end
 
     def client
