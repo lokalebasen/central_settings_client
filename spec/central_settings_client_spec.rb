@@ -70,10 +70,10 @@ describe CentralSettingsClient do
 
     it 'uses the cache' do
       VCR.use_cassette 'dead_backend' do
-        expect(client.by_site_key(site_key)['site_name']).to eql('Lokalebasen.dk')
+        expect(client.by_site_key(site_key)['site_name'])
+          .to eql('Lokalebasen.dk')
       end
     end
-
   end
 
   context 'backend is slow' do
@@ -94,6 +94,5 @@ describe CentralSettingsClient do
       expect(Timeout).to receive(:timeout).and_raise(Timeout::Error)
       expect(client.by_site_key(site_key)['site_name']).to eql('Lokalebasen.dk')
     end
-
   end
 end

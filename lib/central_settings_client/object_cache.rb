@@ -11,6 +11,5 @@ module CentralSettingsClient
       cache[key] ||= CentralSettingsClient::CacheRecord.new(block)
       cache[key].value
     end
-
   end
 end

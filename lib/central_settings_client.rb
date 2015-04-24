@@ -10,7 +10,6 @@ require 'central_settings_client/client'
 require 'central_settings_client/object_cache'
 require 'central_settings_client/cache_record'
 
-
 module CentralSettingsClient
   class BackendError < RuntimeError; end
 end

@@ -16,3 +16,6 @@ Style/AndOr: # Allows us to use `and` and `or`
 
 Style/SingleSpaceBeforeFirstArg: # Allows us to indent as we like
   Enabled: false
+
+Rails/TimeZone: # We can't use Time.zone.now together with our Timecop specs
+  Enabled: false

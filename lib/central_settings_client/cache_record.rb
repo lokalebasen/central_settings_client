@@ -23,7 +23,7 @@ module CentralSettingsClient
 
     def refresh!
       current_value = impatiently_recompute_block
-      self.last_computed_value = current_value if !current_value.nil?
+      self.last_computed_value = current_value unless current_value.nil?
       update_expires_at!
     end
 
@@ -32,13 +32,11 @@ module CentralSettingsClient
     end
 
     def impatiently_recompute_block
-      Timeout::timeout(TIMEOUT) do
+      Timeout.timeout(TIMEOUT) do
         block.call
       end
     rescue Timeout::Error
       nil
     end
-
   end
-
 end
