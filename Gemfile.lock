@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    central_settings_client (0.0.3)
+    central_settings_client (0.0.4)
       activesupport
       excon
       faraday
