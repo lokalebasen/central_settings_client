@@ -1,7 +1,7 @@
 module CentralSettingsClient
   class Client
     attr_reader :settings_service_url
-    class HttpError < RuntimeError; end;
+    HttpError = Class.new(RuntimeError)
 
     def initialize(settings_service_url)
       @object_cache = CentralSettingsClient::ObjectCache.new
@@ -22,7 +22,7 @@ module CentralSettingsClient
     end
 
     def all
-      path = "api/all"
+      path = 'api/all'
       @object_cache.read(path) do
         quietly_fetch(path)
       end
@@ -46,7 +46,7 @@ module CentralSettingsClient
 
     def fetch(path)
       response = client.get(path)
-      fail HttpError.new(response.status) if response.status != 200
+      fail HttpError, response.status if response.status != 200
       JSON.parse(response.body)
     end
 
