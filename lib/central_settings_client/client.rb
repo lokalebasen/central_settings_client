@@ -12,14 +12,16 @@ module CentralSettingsClient
     def by_site_key(site_key)
       path = path_for_site_key(site_key)
       @object_cache.read(path) do
-        quietly_fetch(path)
+        data = quietly_fetch(path)
+        CentralSettingsClient::Dictionary.new(data, site_key) if data.present?
       end
     end
 
     def by_domain(domain)
-      all.find do |site|
+      data = all.find do |site|
         site.fetch('domain') == domain
       end
+      CentralSettingsClient::Dictionary.new(data, domain)
     end
 
     def all
