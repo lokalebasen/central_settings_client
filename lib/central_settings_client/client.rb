@@ -70,7 +70,7 @@ module CentralSettingsClient
 
     def read_from_file_cache(path)
       file_path = "tmp/cache/central_settings_client/#{path}"
-      if File.exists?(file_path)
+      if File.exist?(file_path)
         File.read(file_path)
       else
         response_body = yield
@@ -79,6 +79,5 @@ module CentralSettingsClient
         response_body
       end
     end
-
   end
 end

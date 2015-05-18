@@ -33,6 +33,5 @@ module CentralSettingsClient
         current_value
       end
     end
-
   end
 end

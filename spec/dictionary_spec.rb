@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe CentralSettingsClient::Dictionary do
-
-  let(:source_hash) { {address: {address_line_1: "Falkoner Alle 123", postal_code: "2000"}, phone: "12 34 56 78", employees: ['Alice', 'Bob'] } }
+  let(:source_hash) { { address: { address_line_1: 'Falkoner Alle 123', postal_code: '2000' }, phone: '12 34 56 78', employees: %w(Alice Bob) } }
   let(:dictionary) { CentralSettingsClient::Dictionary.new(source_hash, 'rspec') }
 
   it 'supports reading from nested hashes using dot notation' do
@@ -27,5 +26,4 @@ describe CentralSettingsClient::Dictionary do
   it 'fails on missing keys' do
     expect { dictionary.read('absent_key') }.to raise_error KeyError
   end
-
 end
