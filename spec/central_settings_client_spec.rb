@@ -50,7 +50,9 @@ describe CentralSettingsClient do
     end
 
     it 'uses the cache' do
-      expect(client.by_site_key(site_key).read('site_name')).to eql('Lokalebasen.dk')
+      expect(
+        client.by_site_key(site_key).read('site_name')
+      ).to eql('Lokalebasen.dk')
     end
   end
 
@@ -92,7 +94,9 @@ describe CentralSettingsClient do
 
     it 'returns the cached response when backend is too slow' do
       expect(Timeout).to receive(:timeout).and_raise(Timeout::Error)
-      expect(client.by_site_key(site_key).read('site_name')).to eql('Lokalebasen.dk')
+      expect(
+        client.by_site_key(site_key).read('site_name')
+      ).to eql('Lokalebasen.dk')
     end
   end
 end

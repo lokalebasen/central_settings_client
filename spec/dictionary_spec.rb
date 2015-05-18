@@ -1,8 +1,19 @@
 require 'spec_helper'
 
 describe CentralSettingsClient::Dictionary do
-  let(:source_hash) { { address: { address_line_1: 'Falkoner Alle 123', postal_code: '2000' }, phone: '12 34 56 78', employees: %w(Alice Bob) } }
-  let(:dictionary) { CentralSettingsClient::Dictionary.new(source_hash, 'rspec') }
+  let(:source_hash) do
+    { address:
+      {
+        address_line_1: 'Falkoner Alle 123',
+        postal_code: '2000'
+      },
+      phone: '12 34 56 78',
+      employees: %w(Alice Bob)
+    }
+  end
+  let(:dictionary) do
+    CentralSettingsClient::Dictionary.new(source_hash, 'rspec')
+  end
 
   it 'supports reading from nested hashes using dot notation' do
     expect(dictionary.read('address.postal_code')).to eql '2000'

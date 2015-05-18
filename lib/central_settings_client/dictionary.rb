@@ -3,7 +3,12 @@ module CentralSettingsClient
     attr_reader :name
 
     def initialize(hash, name)
-      fail(ArgumentError, "First argument must be a hash, not a '#{hash.class}'") unless hash.is_a?(Hash)
+      unless hash.is_a?(Hash)
+        fail(
+          ArgumentError,
+          "First argument must be a hash, not a '#{hash.class}'"
+        )
+      end
       @hash = hash.deep_stringify_keys
       @name = name
     end
