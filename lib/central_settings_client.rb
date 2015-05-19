@@ -9,6 +9,7 @@ require 'central_settings_client/version'
 require 'central_settings_client/client'
 require 'central_settings_client/dictionary'
 require 'central_settings_client/echo_dictionary'
+require 'central_settings_client/test_dictionary_builder'
 require 'central_settings_client/object_cache'
 require 'central_settings_client/cache_record'
 
