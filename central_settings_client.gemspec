@@ -20,8 +20,6 @@ central site settings.'
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'faraday'
-  spec.add_dependency 'excon'
   spec.add_dependency 'activesupport'
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'
@@ -29,5 +27,4 @@ central site settings.'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'timecop'
-  spec.add_development_dependency 'rubocop'
 end
