@@ -1,7 +1,8 @@
+require 'open-uri'
+
 module CentralSettingsClient
   class Client
     attr_reader :settings_service_url, :eternal_file_cache
-    HttpError = Class.new(RuntimeError)
 
     def initialize(settings_service_url, eternal_file_cache: false)
       @object_cache = CentralSettingsClient::ObjectCache.new
@@ -44,7 +45,7 @@ module CentralSettingsClient
     def quietly_fetch(path)
       response_data = fetch(path)
       JSON.parse(response_data)
-    rescue JSON::ParserError, TypeError, Faraday::ConnectionFailed, HttpError
+    rescue JSON::ParserError, TypeError, OpenURI::HTTPError
       nil
     end
 
@@ -58,14 +59,11 @@ module CentralSettingsClient
 
     def remotely_fetch(path)
       response = client.get(path)
-      fail HttpError, response.status if response.status != 200
-      response.body.force_encoding('UTF-8')
+      response.force_encoding('UTF-8')
     end
 
     def client
-      @client ||= Faraday.new(settings_service_url) do |faraday|
-        faraday.adapter :excon
-      end
+      @client ||= CentralSettingsClient::HttpClient.new(settings_service_url)
     end
 
     def read_from_file_cache(path)
