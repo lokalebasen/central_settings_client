@@ -32,10 +32,6 @@ module CentralSettingsClient
       end
     end
 
-    def healthy?
-      client.get('/health_check').status == 200
-    end
-
     private
 
     def path_for_site_key(site_key)

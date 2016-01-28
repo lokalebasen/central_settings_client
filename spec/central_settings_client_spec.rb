@@ -17,11 +17,6 @@ describe CentralSettingsClient do
       end
     end
 
-    it 'is alive' do
-      VCR.use_cassette 'working_backend_healthy' do
-        expect(client.healthy?).to be true
-      end
-    end
   end
 
   context 'dead backend' do
@@ -33,11 +28,6 @@ describe CentralSettingsClient do
       end
     end
 
-    it 'is alive' do
-      VCR.use_cassette 'dead_backend_healthy' do
-        expect(client.healthy?).to be false
-      end
-    end
   end
 
   context 'cached response' do
