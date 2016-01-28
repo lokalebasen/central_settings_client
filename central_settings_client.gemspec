@@ -27,5 +27,4 @@ central site settings.'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'timecop'
-  spec.add_development_dependency 'rubocop'
 end
