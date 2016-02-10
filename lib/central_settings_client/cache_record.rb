@@ -1,6 +1,6 @@
 module CentralSettingsClient
   class CacheRecord
-    TIMEOUT = 0.5 # Seconds
+    TIMEOUT = 1.5 # Seconds
     EXPIRATION_TIME = 3600 # One hour in seconds
 
     attr_accessor :expires_at, :last_computed_value, :block
